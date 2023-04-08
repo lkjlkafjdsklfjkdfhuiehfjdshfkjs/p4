@@ -1,0 +1,26 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+a
+{
+    text-decoration: none;
+    color: #ffffff;
+}
+a:hover
+{
+    color: firebrick;
+    text-decoration: none;
+}
+.card{
+    min-height: 150px;
+    width: 450px;
+}
